@@ -1,0 +1,11 @@
+{
+  "beds_rows": 8,
+  "ae_rows": 186,
+  "pressure_rows": 1,
+  "beds_period_min": "2025-12-01",
+  "beds_period_max": "2025-12-01",
+  "ae_period_min": "2010-08-01",
+  "ae_period_max": "2026-01-01",
+  "latest_common_period": "2025-12-01",
+  "risk_score_note": "Prototype score using weighted occupancy, admissions via A&E, and 12-hour decision-to-admit wait rate. Thresholds are product assumptions and must not be interpreted as official NHS risk classifications."
+}
