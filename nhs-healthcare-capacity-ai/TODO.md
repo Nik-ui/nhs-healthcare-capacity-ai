@@ -7,6 +7,7 @@
 - [x] Audit notebook data-loading logic
 - [x] Audit raw workbook sheets and structures
 - [x] Add reproducible data preparation script
+- [x] Map project to CockroachDB x AWS hackathon requirements
 - [ ] Create cleaned analysis notebook
 
 ## Phase 2: Data Analysis
@@ -15,35 +16,41 @@
 - [x] Clean A&E time-series data from `Activity`
 - [x] Align datasets by month where possible
 - [x] Create dashboard-ready processed files
-- [ ] Create a data dictionary
+- [x] Create a data dictionary
 - [x] Define pressure score logic
 - [ ] Validate risk band thresholds
 
-## Phase 3: Product Strategy
+## Phase 3: Agentic Memory
 
-- [ ] Define target users and use cases
-- [ ] Define MVP scope
-- [ ] Define product success metrics
-- [ ] Document assumptions and limitations
-- [ ] Write product research report
-- [ ] Write product impact summary
+- [ ] Create CockroachDB schema
+- [ ] Create local environment template
+- [ ] Load processed NHS data into CockroachDB
+- [ ] Store agent questions and answers as memory
+- [ ] Add semantic memory retrieval with vector search
+- [ ] Add recommendation storage
+- [ ] Document which CockroachDB tools are used
+- [ ] Document which AWS service is used
 
-## Phase 4: Dashboard
+## Phase 4: Dashboard And Agent UI
 
 - [ ] Scaffold React/Vite dashboard
 - [ ] Load processed JSON/CSV files
 - [ ] Build overview KPI cards
 - [ ] Build trend charts
 - [ ] Build risk band visualisation
-- [ ] Build scenario planner
+- [ ] Build agent chat interface
+- [ ] Show visible memory log
+- [ ] Show retrieved similar context
 - [ ] Make dashboard responsive
 - [ ] Deploy dashboard
 
-## Phase 5: Launch Polish
+## Phase 5: Submission Polish
 
 - [ ] Add screenshots to README
 - [ ] Add live dashboard link
+- [ ] Add functional demo app URL
+- [ ] Add public demo video under 3 minutes
 - [ ] Add project architecture diagram or summary
 - [ ] Add final limitations section
-- [ ] Collect feedback or review quotes
 - [ ] Prepare 1-page public product summary
+- [ ] Add open-source license

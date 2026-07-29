@@ -1,0 +1,22 @@
+# Local/private planning files
+docs/curated_evidence/
+docs/tech_nation_evidence_uploads/
+docs/*EVIDENCE*
+docs/*GTV*
+docs/*TECH_NATION*
+docs/*RECOMMENDATION_LETTER*
+OPEN_THIS_BACKUP_FOLDER/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Node dependencies and builds
+node_modules/
+dist/
+build/
