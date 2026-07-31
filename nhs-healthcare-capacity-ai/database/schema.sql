@@ -46,8 +46,12 @@ CREATE TABLE IF NOT EXISTS recommendations (
 CREATE INDEX IF NOT EXISTS capacity_snapshots_period_region_idx
 ON capacity_snapshots (period_date, region_code);
 
+CREATE UNIQUE INDEX IF NOT EXISTS capacity_snapshots_unique_source_idx
+ON capacity_snapshots (period_date, region_code, source_file);
+
 CREATE INDEX IF NOT EXISTS agent_memory_created_at_idx
 ON agent_memory (created_at DESC);
 
 CREATE VECTOR INDEX IF NOT EXISTS memory_embeddings_embedding_idx
 ON memory_embeddings (embedding);
+
