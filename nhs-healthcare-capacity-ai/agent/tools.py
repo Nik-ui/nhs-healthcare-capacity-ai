@@ -108,3 +108,37 @@ def get_ae_activity_history(limit=12):
         }
         for row in rows
     ]
+
+
+def get_ae_time_trend(months=6):
+    with connect() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT
+                    period_date,
+                    ae_total_attendances,
+                    emergency_admissions_via_ae,
+                    dta_waits_over_4h,
+                    dta_waits_over_12h
+                FROM ae_activity
+                ORDER BY period_date DESC
+                LIMIT %(months)s;
+                """,
+                {"months": months},
+            )
+
+            rows = cur.fetchall()
+
+    rows.reverse()
+
+    return [
+        {
+            "period_date": str(row[0]),
+            "ae_total_attendances": str(row[1]),
+            "emergency_admissions_via_ae": str(row[2]),
+            "dta_waits_over_4h": str(row[3]),
+            "dta_waits_over_12h": str(row[4]),
+        }
+        for row in rows
+    ]

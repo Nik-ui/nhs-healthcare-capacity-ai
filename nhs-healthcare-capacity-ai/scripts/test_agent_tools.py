@@ -7,6 +7,7 @@ sys.path.insert(0, str(project_root))
 
 from agent.tools import (
     get_ae_activity_history,
+    get_ae_time_trend,
     get_capacity_summary,
     get_regional_bed_pressure,
 )
@@ -23,4 +24,9 @@ for row in get_regional_bed_pressure():
 print()
 print("Recent A&E activity:")
 for row in get_ae_activity_history(limit=5):
+    print(row)
+
+print()
+print("A&E time trend:")
+for row in get_ae_time_trend(months=6):
     print(row)
