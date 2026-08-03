@@ -12,7 +12,9 @@ This repository is being rebuilt from an exploratory notebook into a hackathon-r
 
 - clean data analysis
 - CockroachDB-backed agent memory
-- AWS-hosted agent workflow
+- CockroachDB vector memory search
+- AWS Bedrock agent workflow
+- A&E pressure forecasting
 - interactive dashboard and chat prototype
 - product research write-up
 - product impact summary
@@ -76,7 +78,7 @@ The project will track:
 
 ## Current Build Status
 
-Baseline audit, first data integration, CockroachDB setup, and Bedrock agent loop are complete.
+Baseline audit, data integration, CockroachDB setup, Bedrock agent loop, vector memory search, and first forecasting tool are complete.
 
 The preparation script creates:
 
@@ -102,8 +104,21 @@ Current agent workflow:
 
 - loads NHS capacity data into CockroachDB
 - retrieves capacity summary, regional bed pressure, A&E history, and A&E trend
+- generates a simple A&E pressure forecast using recent monthly history
+- creates Bedrock Titan embeddings for stored memories
+- searches CockroachDB vector memory for semantically similar previous questions
 - sends structured context to AWS Bedrock
 - answers user questions
-- saves the question and answer into CockroachDB memory
+- saves the question, answer, and memory embedding into CockroachDB
 
-Next step: add vector embeddings so the agent can search memory by meaning, not only by latest conversation history.
+Current demo commands:
+
+```powershell
+C:\Users\folah\my_python_projects\venv\Scripts\python.exe scripts\test_db_connection.py
+C:\Users\folah\my_python_projects\venv\Scripts\python.exe scripts\load_nhs_datasets.py
+C:\Users\folah\my_python_projects\venv\Scripts\python.exe scripts\test_vector_memory.py
+C:\Users\folah\my_python_projects\venv\Scripts\python.exe scripts\test_forecasting.py
+C:\Users\folah\my_python_projects\venv\Scripts\python.exe scripts\ask_bedrock_capacity_agent.py
+```
+
+Next step: build a small app or API so users can ask questions without using PowerShell.

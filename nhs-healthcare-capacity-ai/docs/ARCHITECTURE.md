@@ -9,13 +9,17 @@ flowchart TD
     User[User asks a question] --> CLI[Command-line agent]
     CLI --> Orchestrator[Agent orchestrator]
     Orchestrator --> Tools[CockroachDB data tools]
+    Orchestrator --> Forecast[A&E forecasting tool]
     Orchestrator --> Memory[Recent memory retrieval]
+    Orchestrator --> VectorMemory[Vector memory search]
     Tools --> Cockroach[(CockroachDB Cloud)]
+    Forecast --> Cockroach
     Memory --> Cockroach
+    VectorMemory --> Cockroach
     Cockroach --> Context[Structured context]
     Context --> Bedrock[AWS Bedrock text model]
     Bedrock --> Answer[Agent answer]
-    Answer --> SaveMemory[Save question and answer]
+    Answer --> SaveMemory[Save question, answer, and embedding]
     SaveMemory --> Cockroach
     Answer --> User
 ```
@@ -24,12 +28,14 @@ flowchart TD
 
 The current project uses a simple agent orchestrator instead of a full LangGraph workflow.
 
-The orchestrator does four main things:
+The orchestrator does six main things:
 
 1. Reads NHS capacity data from CockroachDB.
-2. Reads recent agent memory from CockroachDB.
-3. Sends the user question and database context to AWS Bedrock.
-4. Saves the answer back into CockroachDB memory.
+2. Builds a simple A&E pressure forecast from recent monthly history.
+3. Reads recent agent memory from CockroachDB.
+4. Runs vector memory search to find semantically similar previous questions.
+5. Sends the user question and database context to AWS Bedrock.
+6. Saves the answer back into CockroachDB memory with an embedding.
 
 ## Main Components
 
@@ -37,7 +43,11 @@ The orchestrator does four main things:
 
 `agent/tools.py` contains database tools for capacity summary, regional bed pressure, A&E history, and A&E trend.
 
-`agent/memory.py` saves and retrieves agent memory.
+`agent/forecasting.py` creates a simple linear A&E pressure forecast.
+
+`agent/embeddings.py` creates Bedrock Titan embeddings for text.
+
+`agent/memory.py` saves memory, stores memory embeddings, and retrieves similar memories with CockroachDB vector search.
 
 `agent/bedrock_client.py` sends prompts to AWS Bedrock.
 
@@ -45,11 +55,9 @@ The orchestrator does four main things:
 
 `scripts/ask_bedrock_capacity_agent.py` is the command-line entry point for asking the agent questions.
 
-## Planned Upgrade
+## Vector Memory Flow
 
-The next major upgrade is vector memory.
-
-Vector memory will add this flow:
+Vector memory allows the agent to remember meaning, not only exact words.
 
 ```mermaid
 flowchart TD
@@ -60,4 +68,14 @@ flowchart TD
     Orchestrator --> Bedrock[AWS Bedrock answer generation]
 ```
 
-This will let the agent remember meaning, not only exact words.
+## Forecasting Flow
+
+```mermaid
+flowchart TD
+    AEHistory[A&E monthly history in CockroachDB] --> ForecastTool[Simple linear trend forecast]
+    ForecastTool --> ForecastContext[Forecast context]
+    ForecastContext --> Orchestrator[Agent orchestrator]
+    Orchestrator --> Bedrock[AWS Bedrock answer generation]
+```
+
+The forecast is a simple trend estimate for product demonstration. It is not an official NHS prediction.
