@@ -7,18 +7,20 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f4f6f8;
-      --panel: #ffffff;
-      --ink: #172033;
+      --nhs: #005eb8;
+      --nhs-dark: #003f7d;
+      --ink: #111827;
+      --soft-ink: #344054;
       --muted: #667085;
-      --line: #d7dee8;
-      --blue: #165dff;
-      --blue-dark: #1248bf;
-      --green: #077a52;
-      --green-soft: #e7f6ef;
-      --orange: #a35400;
-      --orange-soft: #fff2df;
-      --shadow: 0 18px 50px rgba(27, 39, 64, 0.08);
+      --line: #d8e0ea;
+      --bg: #edf3f8;
+      --panel: #ffffff;
+      --soft-blue: #e8f2ff;
+      --soft-green: #e8f7ef;
+      --green: #087443;
+      --purple: #6933ff;
+      --amber: #b75c00;
+      --shadow: 0 24px 70px rgba(16, 24, 40, 0.11);
     }
 
     * {
@@ -26,8 +28,11 @@
     }
 
     body {
+      min-height: 100vh;
       margin: 0;
-      background: var(--bg);
+      background:
+        linear-gradient(180deg, rgba(0, 94, 184, 0.12), rgba(237, 243, 248, 0) 380px),
+        var(--bg);
       color: var(--ink);
       font-family: Arial, Helvetica, sans-serif;
       line-height: 1.5;
@@ -39,64 +44,65 @@
     }
 
     .page {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1160px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 22px 0 48px;
+      padding: 24px 0 44px;
     }
 
     .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 14px 0 20px;
+      gap: 18px;
+      margin-bottom: 22px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       min-width: 0;
     }
 
-    .mark {
+    .nhs-mark {
       display: grid;
-      width: 44px;
+      width: 78px;
       height: 44px;
       place-items: center;
-      border-radius: 8px;
-      background: var(--blue);
+      border-radius: 3px;
+      background: var(--nhs);
       color: #ffffff;
-      font-size: 0.88rem;
-      font-weight: 800;
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 0;
     }
 
     h1,
     h2,
-    h3,
     p {
       margin: 0;
     }
 
     h1 {
-      font-size: clamp(1.45rem, 2vw, 2.1rem);
+      font-size: clamp(1.5rem, 2vw, 2.15rem);
       letter-spacing: 0;
     }
 
     .subtitle {
-      color: var(--muted);
-      font-size: 0.98rem;
+      max-width: 690px;
+      color: var(--soft-ink);
+      font-size: 1rem;
     }
 
-    .api-pill {
+    .status-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      min-height: 36px;
+      min-height: 38px;
       padding: 8px 12px;
-      border: 1px solid #b8e3cf;
+      border: 1px solid #bce7d0;
       border-radius: 999px;
-      background: var(--green-soft);
+      background: var(--soft-green);
       color: var(--green);
       font-weight: 800;
       white-space: nowrap;
@@ -109,168 +115,189 @@
       background: currentColor;
     }
 
-    .overview {
+    .hero {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .metric {
-      min-height: 98px;
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      box-shadow: var(--shadow);
-    }
-
-    .metric span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.84rem;
-      font-weight: 700;
-    }
-
-    .metric strong {
-      display: block;
-      margin-top: 8px;
-      font-size: 1.35rem;
-      letter-spacing: 0;
-    }
-
-    .metric small {
-      display: block;
-      margin-top: 2px;
-      color: var(--muted);
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(310px, 0.8fr);
+      grid-template-columns: minmax(0, 1.48fr) minmax(320px, 0.75fr);
       gap: 18px;
-      align-items: start;
+      align-items: stretch;
     }
 
     .panel {
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: var(--panel);
+      background: rgba(255, 255, 255, 0.96);
       box-shadow: var(--shadow);
     }
 
-    .panel-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 20px 20px 0;
+    .ask-panel {
+      padding: 24px;
     }
 
-    .panel-header p {
-      margin-top: 4px;
-      color: var(--muted);
+    .eyebrow {
+      color: var(--nhs);
+      font-size: 0.84rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     h2 {
-      font-size: 1.2rem;
+      margin-top: 6px;
+      font-size: clamp(1.35rem, 2.3vw, 2.35rem);
+      line-height: 1.12;
       letter-spacing: 0;
     }
 
-    .input-zone {
-      padding: 18px 20px 20px;
+    .lead {
+      max-width: 720px;
+      margin-top: 10px;
+      color: var(--soft-ink);
+      font-size: 1.02rem;
+    }
+
+    .platform-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .platform {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 38px;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--soft-ink);
+      font-size: 0.93rem;
+      font-weight: 800;
+    }
+
+    .cockroach-logo {
+      width: 22px;
+      height: 22px;
+      color: var(--purple);
+      flex: 0 0 auto;
+    }
+
+    .aws-badge {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      border-radius: 6px;
+      background: #232f3e;
+      color: #ff9900;
+      font-size: 0.72rem;
+      font-weight: 900;
     }
 
     label {
       display: block;
+      margin-top: 22px;
       margin-bottom: 8px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     textarea {
       width: 100%;
-      min-height: 142px;
+      min-height: 128px;
       resize: vertical;
-      padding: 14px;
-      border: 1px solid #b9c4d3;
+      padding: 15px;
+      border: 1px solid #b9c5d4;
       border-radius: 8px;
+      background: #fbfdff;
       color: var(--ink);
-      background: #ffffff;
+      font-size: 1rem;
     }
 
     textarea:focus {
-      outline: 3px solid rgba(22, 93, 255, 0.16);
-      border-color: var(--blue);
+      border-color: var(--nhs);
+      outline: 4px solid rgba(0, 94, 184, 0.15);
     }
 
-    .toolbar {
+    .controls {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       gap: 10px;
-      margin-top: 12px;
+      margin-top: 13px;
     }
 
     button {
-      min-height: 42px;
+      min-height: 43px;
       border: 1px solid transparent;
       border-radius: 8px;
       padding: 10px 14px;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
     }
 
     button:disabled {
       cursor: wait;
-      opacity: 0.72;
+      opacity: 0.7;
     }
 
     .primary {
-      background: var(--blue);
+      background: var(--nhs);
       color: #ffffff;
     }
 
     .primary:hover:not(:disabled) {
-      background: var(--blue-dark);
+      background: var(--nhs-dark);
     }
 
-    .secondary {
-      border-color: #c8d5f5;
-      background: #f0f4ff;
-      color: #173f92;
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .prompt {
+      min-height: 72px;
+      border: 1px solid #c6d8eb;
+      background: var(--soft-blue);
+      color: #153f70;
       text-align: left;
+      line-height: 1.35;
     }
 
     .answer-card {
       margin-top: 18px;
+      overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: #fbfcff;
-      overflow: hidden;
+      background: #ffffff;
     }
 
-    .answer-top {
+    .answer-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      min-height: 48px;
-      padding: 12px 14px;
+      padding: 13px 15px;
       border-bottom: 1px solid var(--line);
-      background: #f7f9fc;
+      background: #f8fbff;
     }
 
-    .answer-title {
-      font-weight: 800;
+    .answer-head strong {
+      font-size: 1rem;
     }
 
     .answer-state {
       color: var(--muted);
       font-size: 0.9rem;
+      font-weight: 800;
     }
 
     .answer {
-      min-height: 210px;
+      min-height: 190px;
       padding: 16px;
+      color: var(--soft-ink);
       white-space: pre-wrap;
       overflow-wrap: anywhere;
     }
@@ -287,92 +314,118 @@
       gap: 14px;
     }
 
-    .side .panel {
+    .insight-panel {
       padding: 18px;
     }
 
-    h3 {
-      margin-bottom: 12px;
-      font-size: 1.03rem;
-      letter-spacing: 0;
-    }
-
-    .step {
+    .signal {
       display: grid;
-      grid-template-columns: 30px 1fr;
-      gap: 10px;
-      padding: 12px 0;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 14px 0;
       border-top: 1px solid var(--line);
     }
 
-    .step:first-of-type {
+    .signal:first-of-type {
       border-top: 0;
       padding-top: 0;
     }
 
-    .step-number {
-      display: grid;
-      width: 30px;
-      height: 30px;
-      place-items: center;
-      border-radius: 8px;
-      background: #edf3ff;
-      color: var(--blue);
-      font-weight: 800;
-    }
-
-    .step strong {
+    .signal strong {
       display: block;
       margin-bottom: 2px;
     }
 
-    .step span {
+    .signal span {
       color: var(--muted);
-      font-size: 0.93rem;
+      font-size: 0.92rem;
     }
 
-    .notice {
-      padding: 12px;
-      border: 1px solid #ffd7a3;
+    .tag {
+      align-self: start;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: #eef4ff;
+      color: #175cd3;
+      font-size: 0.78rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tag.green {
+      background: var(--soft-green);
+      color: var(--green);
+    }
+
+    .tag.amber {
+      background: #fff4e5;
+      color: var(--amber);
+    }
+
+    .demo-card {
+      padding: 18px;
+      background:
+        linear-gradient(135deg, rgba(0, 94, 184, 0.1), rgba(105, 51, 255, 0.08)),
+        var(--panel);
+    }
+
+    .demo-card p {
+      margin-top: 8px;
+      color: var(--soft-ink);
+    }
+
+    .proof-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .proof {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 38px;
+      padding: 9px 10px;
+      border: 1px solid rgba(0, 94, 184, 0.15);
       border-radius: 8px;
-      background: var(--orange-soft);
-      color: var(--orange);
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--soft-ink);
       font-weight: 800;
     }
 
-    .link-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
+    .check {
+      display: grid;
+      width: 20px;
+      height: 20px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green);
+      color: #ffffff;
+      font-size: 0.75rem;
+      flex: 0 0 auto;
     }
 
-    .link-row a {
-      display: inline-flex;
-      min-height: 36px;
-      align-items: center;
-      padding: 8px 10px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      color: var(--ink);
-      text-decoration: none;
-      font-weight: 700;
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
     }
 
-    @media (max-width: 900px) {
-      .overview {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    @media (max-width: 940px) {
+      .hero {
+        grid-template-columns: 1fr;
       }
 
-      .layout {
+      .prompt-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 620px) {
+    @media (max-width: 640px) {
       .page {
-        width: min(100% - 24px, 1180px);
-        padding-top: 12px;
+        width: min(100% - 24px, 1160px);
+        padding-top: 14px;
       }
 
       .topbar {
@@ -380,14 +433,27 @@
         flex-direction: column;
       }
 
-      .overview {
-        grid-template-columns: 1fr;
+      .brand {
+        align-items: flex-start;
       }
 
-      .toolbar {
+      .nhs-mark {
+        width: 64px;
+        height: 38px;
+        font-size: 1rem;
+      }
+
+      .ask-panel {
+        padding: 18px;
+      }
+
+      .controls,
+      .platform-strip {
         flex-direction: column;
+        align-items: stretch;
       }
 
+      .platform,
       button {
         width: 100%;
       }
@@ -398,127 +464,95 @@
   <div class="page">
     <header class="topbar">
       <div class="brand">
-        <div class="mark">NHS</div>
+        <div class="nhs-mark">NHS</div>
         <div>
-          <h1>NHS Capacity Memory Agent</h1>
-          <p class="subtitle">Decision support for capacity pressure, A&E demand, memory recall, and short-term forecasting.</p>
+          <h1>Capacity Memory Agent</h1>
+          <p class="subtitle">A decision-support assistant for bed pressure, A&E demand, short-term forecasting, and operational memory.</p>
         </div>
       </div>
-      <div class="api-pill" id="status"><span class="dot"></span>Checking API</div>
+      <div class="status-pill" id="status"><span class="dot"></span>Checking</div>
     </header>
 
-    <section class="overview" aria-label="System summary">
-      <div class="metric">
-        <span>Cloud Database</span>
-        <strong>CockroachDB</strong>
-        <small>SQL, memory, vector search</small>
-      </div>
-      <div class="metric">
-        <span>LLM Runtime</span>
-        <strong>Bedrock</strong>
-        <small>AWS-hosted answer generation</small>
-      </div>
-      <div class="metric">
-        <span>NHS Data</span>
-        <strong>195 rows</strong>
-        <small>Capacity, beds, A&E activity</small>
-      </div>
-      <div class="metric">
-        <span>Forecast Horizon</span>
-        <strong>3 months</strong>
-        <small>Simple trend signal</small>
-      </div>
-    </section>
+    <main class="hero">
+      <section class="panel ask-panel">
+        <div class="eyebrow">Live capacity intelligence</div>
+        <h2>Ask questions about pressure, demand, and what happened before.</h2>
+        <p class="lead">The assistant turns capacity data into clear operational answers, then remembers each useful interaction for follow-up questions.</p>
 
-    <main class="layout">
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h2>Ask The Capacity Agent</h2>
-            <p>The agent retrieves NHS context, asks Bedrock to reason over it, then saves the answer back into CockroachDB memory.</p>
+        <div class="platform-strip" aria-label="Technology platform">
+          <div class="platform">
+            <svg class="cockroach-logo" role="img" viewBox="0 0 24 24" aria-label="Cockroach Labs logo">
+              <path fill="currentColor" d="M17.645 16.155a13.013 13.013 0 0 0-4.479-13.287 11.617 11.617 0 0 1 5.815-1.546c.774 0 1.545.075 2.304.226l.32-1.282A13.092 13.092 0 0 0 18.98 0 12.93 12.93 0 0 0 12 2.03 12.933 12.933 0 0 0 5.021 0C4.139 0 3.26.089 2.396.266l.319 1.282a11.83 11.83 0 0 1 2.306-.226 11.64 11.64 0 0 1 5.817 1.544 13.01 13.01 0 0 0 .792 20.877l.375.257.373-.257c2.624-1.801 4.5-4.5 5.27-7.588zm-6.305 5.7A11.687 11.687 0 0 1 7.825 9.519a13.08 13.08 0 0 0 2.457 2.977 3.202 3.202 0 0 1 1.058 2.383zm.661-9.657a11.717 11.717 0 0 1-2.343-2.315 3.23 3.23 0 0 1 0-3.912 11.67 11.67 0 0 1 2.347-2.333c.9.671 1.697 1.468 2.37 2.366a3.197 3.197 0 0 1 0 3.832 11.816 11.816 0 0 1-2.374 2.362zm.659 9.657v-6.976a3.202 3.202 0 0 1 1.06-2.383 13.026 13.026 0 0 0 2.455-2.977 11.694 11.694 0 0 1-3.515 12.336Z"/>
+            </svg>
+            CockroachDB
           </div>
+          <div class="platform"><span class="aws-badge">AWS</span> Bedrock</div>
+          <div class="platform">Vector memory</div>
+          <div class="platform">A&E forecast</div>
         </div>
 
-        <div class="input-zone">
-          <label for="question">Question</label>
-          <textarea id="question">What is the likely A&E pressure trend over the next 3 months?</textarea>
+        <label for="question">Question</label>
+        <textarea id="question">What is the likely A&E pressure trend over the next 3 months?</textarea>
 
-          <div class="toolbar">
-            <button class="primary" id="askButton">Ask agent</button>
-            <button class="secondary example" type="button">Which region has the highest bed occupancy?</button>
-            <button class="secondary example" type="button">What did I ask earlier about capacity pressure?</button>
-            <button class="secondary example" type="button">Can you monitor A&E pressure for the next 3 months?</button>
-          </div>
+        <div class="controls">
+          <button class="primary" id="askButton">Ask agent</button>
+        </div>
 
-          <div class="answer-card">
-            <div class="answer-top">
-              <div class="answer-title">Agent Answer</div>
-              <div class="answer-state" id="answerState">Ready</div>
-            </div>
-            <div class="answer" id="answer">Your answer will appear here.</div>
-            <div class="memory-id" id="memory"></div>
+        <div class="prompt-grid">
+          <button class="prompt example" type="button">Which region has the highest bed occupancy?</button>
+          <button class="prompt example" type="button">What did I ask earlier about capacity pressure?</button>
+          <button class="prompt example" type="button">Can you monitor A&E pressure for the next 3 months?</button>
+        </div>
+
+        <div class="answer-card">
+          <div class="answer-head">
+            <strong>Answer</strong>
+            <span class="answer-state" id="answerState">Ready</span>
           </div>
+          <div class="answer" id="answer">Your response will appear here.</div>
+          <div class="memory-id" id="memory"></div>
         </div>
       </section>
 
       <aside class="side">
-        <section class="panel">
-          <h3>How The Agent Works</h3>
-          <div class="step">
-            <div class="step-number">1</div>
+        <section class="panel insight-panel">
+          <h2>Current Signals</h2>
+          <div class="signal">
             <div>
-              <strong>Retrieve context</strong>
-              <span>Queries capacity, regional beds, A&E history, forecasts, and previous memories.</span>
+              <strong>Capacity pressure</strong>
+              <span>Latest national snapshot and regional bed pressure available.</span>
             </div>
+            <div class="tag amber">Elevated</div>
           </div>
-          <div class="step">
-            <div class="step-number">2</div>
+          <div class="signal">
             <div>
-              <strong>Reason with Bedrock</strong>
-              <span>Uses the retrieved CockroachDB context to create a grounded answer.</span>
+              <strong>A&E demand</strong>
+              <span>Monthly activity history supports trend questions and short forecasts.</span>
             </div>
+            <div class="tag">Trend</div>
           </div>
-          <div class="step">
-            <div class="step-number">3</div>
+          <div class="signal">
             <div>
-              <strong>Save memory</strong>
-              <span>Stores the new question and answer for later recall and vector search.</span>
+              <strong>Memory recall</strong>
+              <span>Previous questions can be retrieved for follow-up conversations.</span>
             </div>
+            <div class="tag green">Active</div>
           </div>
         </section>
 
-        <section class="panel">
-          <h3>Demo Evidence</h3>
-          <div class="step">
-            <div class="step-number">DB</div>
-            <div>
-              <strong>Cloud persistence</strong>
-              <span>Answers return with a memory ID saved in CockroachDB.</span>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-number">AI</div>
-            <div>
-              <strong>Data-grounded response</strong>
-              <span>The model answers from retrieved NHS rows, not from guesswork.</span>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-number">VS</div>
-            <div>
-              <strong>Vector memory</strong>
-              <span>Semantic similarity helps the agent recall related previous questions.</span>
-            </div>
-          </div>
-          <div class="link-row">
-            <a href="/docs" target="_blank" rel="noreferrer">API docs</a>
-            <a href="/health" target="_blank" rel="noreferrer">Health check</a>
+        <section class="panel demo-card">
+          <h2>Demo Story</h2>
+          <p>Ask a capacity question, get a grounded answer, then ask what you asked earlier. The memory ID proves the conversation was saved.</p>
+          <div class="proof-list">
+            <div class="proof"><span class="check">✓</span> Capacity data stored in CockroachDB</div>
+            <div class="proof"><span class="check">✓</span> Bedrock generates the final response</div>
+            <div class="proof"><span class="check">✓</span> Vector memory supports similar-question recall</div>
           </div>
         </section>
-
-        <div class="notice">Keep secrets out of prompts. Your `.env` stays private and must never go to GitHub.</div>
       </aside>
     </main>
+
+    <footer>NHS Capacity Memory Agent - CockroachDB, AWS Bedrock, vector memory, and forecasting.</footer>
   </div>
 
   <script>
@@ -534,12 +568,12 @@
         const response = await fetch("/health");
         const data = await response.json();
         status.innerHTML = data.status === "ok"
-          ? '<span class="dot"></span>API online'
-          : '<span class="dot"></span>API status unknown';
+          ? '<span class="dot"></span>Online'
+          : '<span class="dot"></span>Status unknown';
       } catch {
-        status.innerHTML = '<span class="dot"></span>API offline';
+        status.innerHTML = '<span class="dot"></span>Offline';
         status.style.color = "#a35400";
-        status.style.background = "#fff2df";
+        status.style.background = "#fff4e5";
         status.style.borderColor = "#ffd7a3";
       }
     }
@@ -555,8 +589,8 @@
 
       askButton.disabled = true;
       askButton.textContent = "Thinking...";
-      answerState.textContent = "Retrieving context";
-      answer.textContent = "Reading CockroachDB data, checking memory, calling Bedrock, then saving this interaction...";
+      answerState.textContent = "Working";
+      answer.textContent = "Retrieving the right capacity context and preparing an answer...";
       memory.textContent = "";
 
       try {
@@ -573,7 +607,7 @@
         }
 
         answer.textContent = data.answer;
-        memory.textContent = `CockroachDB memory ID: ${data.memory_id}`;
+        memory.textContent = `Memory ID: ${data.memory_id}`;
         answerState.textContent = "Saved";
       } catch (error) {
         answer.textContent = `Something went wrong: ${error.message}`;
