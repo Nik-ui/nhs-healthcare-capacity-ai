@@ -392,6 +392,71 @@
       color: var(--soft-ink);
     }
 
+    .guide-card {
+      padding: 18px;
+    }
+
+    .guide-card p {
+      margin-top: 8px;
+      color: var(--soft-ink);
+    }
+
+    .guide-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .guide-step {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid #d9e7f7;
+      border-radius: 8px;
+      background: #fbfdff;
+    }
+
+    .guide-step strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .guide-step span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .step-number {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--nhs);
+      color: #ffffff;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .question-types {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .question-type {
+      padding: 6px 9px;
+      border: 1px solid #c6d8eb;
+      border-radius: 999px;
+      background: var(--soft-blue);
+      color: #153f70;
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
     .proof-list {
       display: grid;
       gap: 9px;
@@ -576,6 +641,43 @@
             <div class="proof"><span class="check" aria-hidden="true"></span> Vector memory supports similar-question recall</div>
           </div>
         </section>
+
+        <section class="panel guide-card">
+          <h2>How To Use The AI</h2>
+          <p>Ask one clear operational question at a time. The assistant will retrieve relevant NHS data, use Bedrock to reason over it, and remember useful answers for later follow-up.</p>
+
+          <div class="guide-list">
+            <div class="guide-step">
+              <div class="step-number">1</div>
+              <div>
+                <strong>Ask about current pressure</strong>
+                <span>Example: Which region has the highest bed occupancy?</span>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-number">2</div>
+              <div>
+                <strong>Ask about short-term trend</strong>
+                <span>Example: What is the likely A&E pressure trend over the next 3 months?</span>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-number">3</div>
+              <div>
+                <strong>Ask follow-up questions</strong>
+                <span>Example: What did I ask earlier about capacity pressure?</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="question-types" aria-label="Supported question types">
+            <span class="question-type">Capacity pressure</span>
+            <span class="question-type">Regional beds</span>
+            <span class="question-type">A&E demand</span>
+            <span class="question-type">Forecasts</span>
+            <span class="question-type">Memory recall</span>
+          </div>
+        </section>
       </aside>
     </main>
 
@@ -716,7 +818,7 @@
         }
 
         answer.innerHTML = renderAnswer(data.answer);
-        memory.textContent = "Saved to CockroachDB memory.";
+        memory.textContent = "";
         answerState.textContent = "Answered";
       } catch (error) {
         answer.textContent = `Something went wrong: ${error.message}`;
