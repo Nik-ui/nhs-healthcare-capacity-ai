@@ -457,6 +457,44 @@
       font-weight: 800;
     }
 
+    .glossary {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .glossary h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+
+    .glossary-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .glossary-item {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 9px 10px;
+      border: 1px solid #e0e8f2;
+      border-radius: 8px;
+      background: #fbfdff;
+    }
+
+    .glossary-term {
+      color: var(--nhs);
+      font-weight: 900;
+    }
+
+    .glossary-definition {
+      color: var(--soft-ink);
+      font-size: 0.9rem;
+    }
+
     .proof-list {
       display: grid;
       gap: 9px;
@@ -629,6 +667,28 @@
               <span id="memorySignalText">Loading memory status...</span>
             </div>
             <div class="tag green" id="memorySignalTag">Active</div>
+          </div>
+
+          <div class="glossary">
+            <h3>Glossary</h3>
+            <div class="glossary-list">
+              <div class="glossary-item">
+                <div class="glossary-term">A&E</div>
+                <div class="glossary-definition">Accident and Emergency attendances.</div>
+              </div>
+              <div class="glossary-item">
+                <div class="glossary-term">GA</div>
+                <div class="glossary-definition">General and Acute hospital beds.</div>
+              </div>
+              <div class="glossary-item">
+                <div class="glossary-term">DTA</div>
+                <div class="glossary-definition">Decision to admit waits after emergency assessment.</div>
+              </div>
+              <div class="glossary-item">
+                <div class="glossary-term">Vector</div>
+                <div class="glossary-definition">A meaning-based memory search for similar questions.</div>
+              </div>
+            </div>
           </div>
         </section>
 
