@@ -7,15 +7,18 @@
   <style>
     :root {
       color-scheme: light;
-      --ink: #18212f;
-      --muted: #647084;
-      --line: #d8dee8;
+      --bg: #f4f6f8;
       --panel: #ffffff;
-      --bg: #f5f7fb;
-      --blue: #246bfe;
-      --blue-dark: #164ec2;
-      --green: #0f8a5f;
-      --orange: #bc5b00;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d7dee8;
+      --blue: #165dff;
+      --blue-dark: #1248bf;
+      --green: #077a52;
+      --green-soft: #e7f6ef;
+      --orange: #a35400;
+      --orange-soft: #fff2df;
+      --shadow: 0 18px 50px rgba(27, 39, 64, 0.08);
     }
 
     * {
@@ -30,14 +33,15 @@
       line-height: 1.5;
     }
 
-    header {
-      border-bottom: 1px solid var(--line);
-      background: #ffffff;
+    button,
+    textarea {
+      font: inherit;
     }
 
-    .wrap {
-      width: min(1120px, calc(100% - 32px));
+    .page {
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
+      padding: 22px 0 48px;
     }
 
     .topbar {
@@ -45,7 +49,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      min-height: 72px;
+      padding: 14px 0 20px;
     }
 
     .brand {
@@ -57,94 +61,167 @@
 
     .mark {
       display: grid;
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       place-items: center;
       border-radius: 8px;
       background: var(--blue);
-      color: white;
-      font-weight: 700;
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
     }
 
     h1 {
-      margin: 0;
-      font-size: clamp(1.35rem, 2vw, 2rem);
+      font-size: clamp(1.45rem, 2vw, 2.1rem);
       letter-spacing: 0;
     }
 
-    .status {
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .api-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 36px;
+      padding: 8px 12px;
+      border: 1px solid #b8e3cf;
+      border-radius: 999px;
+      background: var(--green-soft);
       color: var(--green);
-      font-size: 0.92rem;
-      font-weight: 700;
+      font-weight: 800;
       white-space: nowrap;
     }
 
-    main {
-      padding: 28px 0 48px;
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
     }
 
-    .grid {
+    .overview {
       display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .metric {
+      min-height: 98px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+
+    .metric small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(310px, 0.8fr);
       gap: 18px;
       align-items: start;
     }
 
-    section,
-    aside {
-      background: var(--panel);
+    .panel {
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 20px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 20px 0;
+    }
+
+    .panel-header p {
+      margin-top: 4px;
+      color: var(--muted);
     }
 
     h2 {
-      margin: 0 0 12px;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       letter-spacing: 0;
     }
 
-    p {
-      margin: 0 0 16px;
-      color: var(--muted);
+    .input-zone {
+      padding: 18px 20px 20px;
     }
 
     label {
       display: block;
       margin-bottom: 8px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     textarea {
       width: 100%;
-      min-height: 130px;
+      min-height: 142px;
       resize: vertical;
       padding: 14px;
-      border: 1px solid #bcc7d8;
+      border: 1px solid #b9c4d3;
       border-radius: 8px;
       color: var(--ink);
-      font: inherit;
+      background: #ffffff;
     }
 
     textarea:focus {
-      outline: 3px solid rgba(36, 107, 254, 0.18);
+      outline: 3px solid rgba(22, 93, 255, 0.16);
       border-color: var(--blue);
     }
 
-    .actions {
+    .toolbar {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 12px;
     }
 
     button {
+      min-height: 42px;
       border: 1px solid transparent;
       border-radius: 8px;
       padding: 10px 14px;
-      font: inherit;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.72;
     }
 
     .primary {
@@ -152,132 +229,297 @@
       color: #ffffff;
     }
 
-    .primary:hover {
+    .primary:hover:not(:disabled) {
       background: var(--blue-dark);
     }
 
-    .ghost {
-      background: #eef3ff;
+    .secondary {
+      border-color: #c8d5f5;
+      background: #f0f4ff;
       color: #173f92;
-      border-color: #cad8ff;
       text-align: left;
     }
 
-    .answer {
-      min-height: 180px;
+    .answer-card {
       margin-top: 18px;
-      padding: 16px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fbfcff;
-      white-space: pre-wrap;
+      overflow: hidden;
     }
 
-    .meta {
-      margin-top: 10px;
+    .answer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 48px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #f7f9fc;
+    }
+
+    .answer-title {
+      font-weight: 800;
+    }
+
+    .answer-state {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .answer {
+      min-height: 210px;
+      padding: 16px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .memory-id {
+      padding: 0 16px 16px;
       color: var(--muted);
       font-size: 0.9rem;
       overflow-wrap: anywhere;
     }
 
-    .item {
+    .side {
+      display: grid;
+      gap: 14px;
+    }
+
+    .side .panel {
+      padding: 18px;
+    }
+
+    h3 {
+      margin-bottom: 12px;
+      font-size: 1.03rem;
+      letter-spacing: 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
       padding: 12px 0;
       border-top: 1px solid var(--line);
     }
 
-    .item:first-of-type {
+    .step:first-of-type {
       border-top: 0;
       padding-top: 0;
     }
 
-    .item strong {
+    .step-number {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 8px;
+      background: #edf3ff;
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .step strong {
       display: block;
       margin-bottom: 2px;
     }
 
-    .item span {
+    .step span {
       color: var(--muted);
-      font-size: 0.94rem;
+      font-size: 0.93rem;
     }
 
-    .warning {
+    .notice {
+      padding: 12px;
+      border: 1px solid #ffd7a3;
+      border-radius: 8px;
+      background: var(--orange-soft);
       color: var(--orange);
+      font-weight: 800;
+    }
+
+    .link-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .link-row a {
+      display: inline-flex;
+      min-height: 36px;
+      align-items: center;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--ink);
+      text-decoration: none;
       font-weight: 700;
     }
 
-    @media (max-width: 760px) {
+    @media (max-width: 900px) {
+      .overview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        width: min(100% - 24px, 1180px);
+        padding-top: 12px;
+      }
+
       .topbar {
         align-items: flex-start;
         flex-direction: column;
-        padding: 14px 0;
       }
 
-      .grid {
+      .overview {
         grid-template-columns: 1fr;
       }
 
-      .actions {
+      .toolbar {
         flex-direction: column;
+      }
+
+      button {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap topbar">
+  <div class="page">
+    <header class="topbar">
       <div class="brand">
         <div class="mark">NHS</div>
         <div>
           <h1>NHS Capacity Memory Agent</h1>
-          <p>CockroachDB memory, AWS Bedrock answers, and A&E pressure forecasting.</p>
+          <p class="subtitle">Decision support for capacity pressure, A&E demand, memory recall, and short-term forecasting.</p>
         </div>
       </div>
-      <div class="status" id="status">API checking...</div>
-    </div>
-  </header>
+      <div class="api-pill" id="status"><span class="dot"></span>Checking API</div>
+    </header>
 
-  <main class="wrap">
-    <div class="grid">
-      <section>
-        <h2>Ask The Agent</h2>
-        <p>Ask about bed pressure, A&E trends, previous questions, or short-term forecasts.</p>
+    <section class="overview" aria-label="System summary">
+      <div class="metric">
+        <span>Cloud Database</span>
+        <strong>CockroachDB</strong>
+        <small>SQL, memory, vector search</small>
+      </div>
+      <div class="metric">
+        <span>LLM Runtime</span>
+        <strong>Bedrock</strong>
+        <small>AWS-hosted answer generation</small>
+      </div>
+      <div class="metric">
+        <span>NHS Data</span>
+        <strong>195 rows</strong>
+        <small>Capacity, beds, A&E activity</small>
+      </div>
+      <div class="metric">
+        <span>Forecast Horizon</span>
+        <strong>3 months</strong>
+        <small>Simple trend signal</small>
+      </div>
+    </section>
 
-        <label for="question">Question</label>
-        <textarea id="question">What is the likely A&E pressure trend over the next 3 months?</textarea>
-
-        <div class="actions">
-          <button class="primary" id="askButton">Ask agent</button>
-          <button class="ghost example" type="button">Which region has the highest bed occupancy?</button>
-          <button class="ghost example" type="button">What did I ask earlier about capacity pressure?</button>
-          <button class="ghost example" type="button">Can you monitor A&E pressure for the next 3 months?</button>
+    <main class="layout">
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>Ask The Capacity Agent</h2>
+            <p>The agent retrieves NHS context, asks Bedrock to reason over it, then saves the answer back into CockroachDB memory.</p>
+          </div>
         </div>
 
-        <div class="answer" id="answer">Your answer will appear here.</div>
-        <div class="meta" id="memory"></div>
+        <div class="input-zone">
+          <label for="question">Question</label>
+          <textarea id="question">What is the likely A&E pressure trend over the next 3 months?</textarea>
+
+          <div class="toolbar">
+            <button class="primary" id="askButton">Ask agent</button>
+            <button class="secondary example" type="button">Which region has the highest bed occupancy?</button>
+            <button class="secondary example" type="button">What did I ask earlier about capacity pressure?</button>
+            <button class="secondary example" type="button">Can you monitor A&E pressure for the next 3 months?</button>
+          </div>
+
+          <div class="answer-card">
+            <div class="answer-top">
+              <div class="answer-title">Agent Answer</div>
+              <div class="answer-state" id="answerState">Ready</div>
+            </div>
+            <div class="answer" id="answer">Your answer will appear here.</div>
+            <div class="memory-id" id="memory"></div>
+          </div>
+        </div>
       </section>
 
-      <aside>
-        <h2>System Evidence</h2>
-        <div class="item">
-          <strong>CockroachDB</strong>
-          <span>NHS data, agent memory, and vector memory are stored in the cloud database.</span>
-        </div>
-        <div class="item">
-          <strong>AWS Bedrock</strong>
-          <span>Generates the final natural-language answer using retrieved data context.</span>
-        </div>
-        <div class="item">
-          <strong>Forecasting</strong>
-          <span>Uses recent A&E history and a simple trend method for short-term pressure signals.</span>
-        </div>
-        <div class="item">
-          <strong>Memory</strong>
-          <span>Each useful question and answer can be saved and recalled later.</span>
-        </div>
-        <p class="warning">Do not paste secrets into questions. Keep `.env` private.</p>
+      <aside class="side">
+        <section class="panel">
+          <h3>How The Agent Works</h3>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div>
+              <strong>Retrieve context</strong>
+              <span>Queries capacity, regional beds, A&E history, forecasts, and previous memories.</span>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div>
+              <strong>Reason with Bedrock</strong>
+              <span>Uses the retrieved CockroachDB context to create a grounded answer.</span>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div>
+              <strong>Save memory</strong>
+              <span>Stores the new question and answer for later recall and vector search.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>Demo Evidence</h3>
+          <div class="step">
+            <div class="step-number">DB</div>
+            <div>
+              <strong>Cloud persistence</strong>
+              <span>Answers return with a memory ID saved in CockroachDB.</span>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">AI</div>
+            <div>
+              <strong>Data-grounded response</strong>
+              <span>The model answers from retrieved NHS rows, not from guesswork.</span>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">VS</div>
+            <div>
+              <strong>Vector memory</strong>
+              <span>Semantic similarity helps the agent recall related previous questions.</span>
+            </div>
+          </div>
+          <div class="link-row">
+            <a href="/docs" target="_blank" rel="noreferrer">API docs</a>
+            <a href="/health" target="_blank" rel="noreferrer">Health check</a>
+          </div>
+        </section>
+
+        <div class="notice">Keep secrets out of prompts. Your `.env` stays private and must never go to GitHub.</div>
       </aside>
-    </div>
-  </main>
+    </main>
+  </div>
 
   <script>
     const question = document.getElementById("question");
@@ -285,14 +527,20 @@
     const memory = document.getElementById("memory");
     const askButton = document.getElementById("askButton");
     const status = document.getElementById("status");
+    const answerState = document.getElementById("answerState");
 
     async function checkHealth() {
       try {
         const response = await fetch("/health");
         const data = await response.json();
-        status.textContent = data.status === "ok" ? "API online" : "API status unknown";
+        status.innerHTML = data.status === "ok"
+          ? '<span class="dot"></span>API online'
+          : '<span class="dot"></span>API status unknown';
       } catch {
-        status.textContent = "API offline";
+        status.innerHTML = '<span class="dot"></span>API offline';
+        status.style.color = "#a35400";
+        status.style.background = "#fff2df";
+        status.style.borderColor = "#ffd7a3";
       }
     }
 
@@ -301,12 +549,14 @@
       if (!text) {
         answer.textContent = "Please type a question first.";
         memory.textContent = "";
+        answerState.textContent = "Waiting";
         return;
       }
 
       askButton.disabled = true;
       askButton.textContent = "Thinking...";
-      answer.textContent = "Retrieving NHS context, asking Bedrock, and saving memory...";
+      answerState.textContent = "Retrieving context";
+      answer.textContent = "Reading CockroachDB data, checking memory, calling Bedrock, then saving this interaction...";
       memory.textContent = "";
 
       try {
@@ -319,13 +569,15 @@
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.detail || "The API returned an error.");
+          throw new Error(typeof data.detail === "string" ? data.detail : "The API returned an error.");
         }
 
         answer.textContent = data.answer;
-        memory.textContent = `Saved memory ID: ${data.memory_id}`;
+        memory.textContent = `CockroachDB memory ID: ${data.memory_id}`;
+        answerState.textContent = "Saved";
       } catch (error) {
         answer.textContent = `Something went wrong: ${error.message}`;
+        answerState.textContent = "Error";
       } finally {
         askButton.disabled = false;
         askButton.textContent = "Ask agent";
