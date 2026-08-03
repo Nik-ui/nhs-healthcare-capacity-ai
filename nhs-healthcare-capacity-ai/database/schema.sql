@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS agent_memory (
 CREATE TABLE IF NOT EXISTS memory_embeddings (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     memory_id UUID NOT NULL REFERENCES agent_memory (id) ON DELETE CASCADE,
-    embedding VECTOR(1536),
+    embedding VECTOR(1024),
     embedding_model STRING,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -102,4 +102,4 @@ CREATE INDEX IF NOT EXISTS agent_memory_created_at_idx
 ON agent_memory (created_at DESC);
 
 CREATE VECTOR INDEX IF NOT EXISTS memory_embeddings_embedding_idx
-ON memory_embeddings (embedding);
+ON memory_embeddings (embedding vector_cosine_ops);

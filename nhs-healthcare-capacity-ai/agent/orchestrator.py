@@ -1,5 +1,9 @@
 from agent.bedrock_client import generate_text
-from agent.memory import get_recent_memories, save_memory
+from agent.memory import (
+    get_recent_memories,
+    get_similar_memories,
+    save_memory_with_embedding,
+)
 from agent.tools import (
     get_ae_time_trend,
     get_capacity_summary,
@@ -23,6 +27,8 @@ def build_agent_context():
 
 def answer_question(user_question):
     context = build_agent_context()
+    similar_memories = get_similar_memories(user_question, limit=3)
+    context["similar_memories"] = similar_memories
 
     prompt = f"""
 You are the NHS Capacity Memory Agent.
@@ -30,7 +36,8 @@ You are the NHS Capacity Memory Agent.
 You help healthcare operations teams understand NHS capacity pressure using:
 1. CockroachDB NHS capacity data
 2. CockroachDB stored agent memory
-3. AWS Bedrock reasoning
+3. CockroachDB vector memory search
+4. AWS Bedrock reasoning
 
 User question:
 {user_question}
@@ -45,6 +52,7 @@ Instructions:
 - If useful, mention the specific period/date used.
 - If the question asks for a recommendation, give operationally sensible next steps.
 - Do not claim this is official NHS risk classification.
+- Prefer similar_memories when answering questions about what the user asked before.
 """
 
     agent_answer = generate_text(prompt)
@@ -55,7 +63,7 @@ Instructions:
         f"and recent stored memories."
     )
 
-    memory_id = save_memory(
+    memory_id = save_memory_with_embedding(
         user_question=user_question,
         agent_answer=agent_answer,
         memory_summary=memory_summary,
