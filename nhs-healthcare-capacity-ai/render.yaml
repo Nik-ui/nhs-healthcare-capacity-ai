@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: nhs-capacity-memory-agent
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_REGION
+        value: us-east-1
+      - key: EMBEDDING_PROVIDER
+        value: bedrock
+      - key: EMBEDDING_MODEL
+        value: amazon.titan-embed-text-v2:0
+      - key: BEDROCK_TEXT_MODEL
+        value: anthropic.claude-sonnet-4-20250514-v1:0
