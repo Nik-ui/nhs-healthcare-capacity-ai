@@ -1,4 +1,5 @@
 from agent.bedrock_client import generate_text
+from agent.forecasting import forecast_ae_pressure
 from agent.memory import (
     get_recent_memories,
     get_similar_memories,
@@ -15,12 +16,14 @@ def build_agent_context():
     capacity_summary = get_capacity_summary()
     regional_bed_pressure = get_regional_bed_pressure()
     ae_time_trend = get_ae_time_trend(months=6)
+    ae_pressure_forecast = forecast_ae_pressure(months_history=12, periods_ahead=3)
     recent_memories = get_recent_memories(limit=5)
 
     return {
         "capacity_summary": capacity_summary,
         "regional_bed_pressure": regional_bed_pressure,
         "ae_time_trend": ae_time_trend,
+        "ae_pressure_forecast": ae_pressure_forecast,
         "recent_memories": recent_memories,
     }
 
@@ -37,7 +40,8 @@ You help healthcare operations teams understand NHS capacity pressure using:
 1. CockroachDB NHS capacity data
 2. CockroachDB stored agent memory
 3. CockroachDB vector memory search
-4. AWS Bedrock reasoning
+4. A simple A&E pressure forecast
+5. AWS Bedrock reasoning
 
 User question:
 {user_question}
@@ -50,6 +54,7 @@ Instructions:
 - If the context does not contain enough data, say what is missing.
 - Be clear, practical, and concise.
 - If useful, mention the specific period/date used.
+- For forecast questions, use ae_pressure_forecast and clearly say it is a simple linear trend, not an official NHS prediction.
 - If the question asks for a recommendation, give operationally sensible next steps.
 - Do not claim this is official NHS risk classification.
 - Prefer similar_memories when answering questions about what the user asked before.
@@ -59,7 +64,7 @@ Instructions:
 
     memory_summary = (
         f"User asked: {user_question}. Agent answered using CockroachDB NHS "
-        f"capacity data, recent A&E trend data, regional bed pressure data, "
+        f"capacity data, recent A&E trend data, A&E forecast data, regional bed pressure data, "
         f"and recent stored memories."
     )
 
