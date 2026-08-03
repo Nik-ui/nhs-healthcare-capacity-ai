@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NHS Capacity Memory Agent</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18212f;
+      --muted: #647084;
+      --line: #d8dee8;
+      --panel: #ffffff;
+      --bg: #f5f7fb;
+      --blue: #246bfe;
+      --blue-dark: #164ec2;
+      --green: #0f8a5f;
+      --orange: #bc5b00;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 72px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--blue);
+      color: white;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 2vw, 2rem);
+      letter-spacing: 0;
+    }
+
+    .status {
+      color: var(--green);
+      font-size: 0.92rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    main {
+      padding: 28px 0 48px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    section,
+    aside {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.1rem;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      resize: vertical;
+      padding: 14px;
+      border: 1px solid #bcc7d8;
+      border-radius: 8px;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    textarea:focus {
+      outline: 3px solid rgba(36, 107, 254, 0.18);
+      border-color: var(--blue);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: var(--blue);
+      color: #ffffff;
+    }
+
+    .primary:hover {
+      background: var(--blue-dark);
+    }
+
+    .ghost {
+      background: #eef3ff;
+      color: #173f92;
+      border-color: #cad8ff;
+      text-align: left;
+    }
+
+    .answer {
+      min-height: 180px;
+      margin-top: 18px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      white-space: pre-wrap;
+    }
+
+    .meta {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      overflow-wrap: anywhere;
+    }
+
+    .item {
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .item:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .item strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .item span {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .warning {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 0;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div class="brand">
+        <div class="mark">NHS</div>
+        <div>
+          <h1>NHS Capacity Memory Agent</h1>
+          <p>CockroachDB memory, AWS Bedrock answers, and A&E pressure forecasting.</p>
+        </div>
+      </div>
+      <div class="status" id="status">API checking...</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid">
+      <section>
+        <h2>Ask The Agent</h2>
+        <p>Ask about bed pressure, A&E trends, previous questions, or short-term forecasts.</p>
+
+        <label for="question">Question</label>
+        <textarea id="question">What is the likely A&E pressure trend over the next 3 months?</textarea>
+
+        <div class="actions">
+          <button class="primary" id="askButton">Ask agent</button>
+          <button class="ghost example" type="button">Which region has the highest bed occupancy?</button>
+          <button class="ghost example" type="button">What did I ask earlier about capacity pressure?</button>
+          <button class="ghost example" type="button">Can you monitor A&E pressure for the next 3 months?</button>
+        </div>
+
+        <div class="answer" id="answer">Your answer will appear here.</div>
+        <div class="meta" id="memory"></div>
+      </section>
+
+      <aside>
+        <h2>System Evidence</h2>
+        <div class="item">
+          <strong>CockroachDB</strong>
+          <span>NHS data, agent memory, and vector memory are stored in the cloud database.</span>
+        </div>
+        <div class="item">
+          <strong>AWS Bedrock</strong>
+          <span>Generates the final natural-language answer using retrieved data context.</span>
+        </div>
+        <div class="item">
+          <strong>Forecasting</strong>
+          <span>Uses recent A&E history and a simple trend method for short-term pressure signals.</span>
+        </div>
+        <div class="item">
+          <strong>Memory</strong>
+          <span>Each useful question and answer can be saved and recalled later.</span>
+        </div>
+        <p class="warning">Do not paste secrets into questions. Keep `.env` private.</p>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const question = document.getElementById("question");
+    const answer = document.getElementById("answer");
+    const memory = document.getElementById("memory");
+    const askButton = document.getElementById("askButton");
+    const status = document.getElementById("status");
+
+    async function checkHealth() {
+      try {
+        const response = await fetch("/health");
+        const data = await response.json();
+        status.textContent = data.status === "ok" ? "API online" : "API status unknown";
+      } catch {
+        status.textContent = "API offline";
+      }
+    }
+
+    async function askAgent() {
+      const text = question.value.trim();
+      if (!text) {
+        answer.textContent = "Please type a question first.";
+        memory.textContent = "";
+        return;
+      }
+
+      askButton.disabled = true;
+      askButton.textContent = "Thinking...";
+      answer.textContent = "Retrieving NHS context, asking Bedrock, and saving memory...";
+      memory.textContent = "";
+
+      try {
+        const response = await fetch("/ask", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({question: text})
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || "The API returned an error.");
+        }
+
+        answer.textContent = data.answer;
+        memory.textContent = `Saved memory ID: ${data.memory_id}`;
+      } catch (error) {
+        answer.textContent = `Something went wrong: ${error.message}`;
+      } finally {
+        askButton.disabled = false;
+        askButton.textContent = "Ask agent";
+      }
+    }
+
+    document.querySelectorAll(".example").forEach((button) => {
+      button.addEventListener("click", () => {
+        question.value = button.textContent;
+        question.focus();
+      });
+    });
+
+    askButton.addEventListener("click", askAgent);
+    checkHealth();
+  </script>
+</body>
+</html>
