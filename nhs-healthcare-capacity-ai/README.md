@@ -43,6 +43,8 @@ Official source pages:
 - `dashboard/` - fast React/Vite dashboard
 - `docs/HACKATHON_STRATEGY.md` - CockroachDB x AWS hackathon plan and requirements mapping
 - `docs/DATA_DICTIONARY.md` - definitions for processed columns and metrics
+- `docs/ERD.md` - CockroachDB entity relationship diagram
+- `docs/ARCHITECTURE.md` - agent and memory architecture
 - `docs/PRODUCT_RESEARCH_REPORT.md` - research and product strategy write-up
 - `docs/PRODUCT_IMPACT_SUMMARY.md` - concise product impact and roadmap summary
 
@@ -72,9 +74,9 @@ The project will track:
 - capacity pressure score
 - risk band: normal, elevated, high, critical
 
-## Status
+## Current Build Status
 
-Baseline audit and first data integration complete.
+Baseline audit, first data integration, CockroachDB setup, and Bedrock agent loop are complete.
 
 The preparation script creates:
 
@@ -96,4 +98,12 @@ First merged national pressure row:
 - Prototype pressure score: 64.8
 - Prototype risk band: elevated
 
-Next step: create the CockroachDB schema and local data loader, then build the first agent memory workflow.
+Current agent workflow:
+
+- loads NHS capacity data into CockroachDB
+- retrieves capacity summary, regional bed pressure, A&E history, and A&E trend
+- sends structured context to AWS Bedrock
+- answers user questions
+- saves the question and answer into CockroachDB memory
+
+Next step: add vector embeddings so the agent can search memory by meaning, not only by latest conversation history.
