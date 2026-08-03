@@ -298,8 +298,26 @@
       min-height: 190px;
       padding: 16px;
       color: var(--soft-ink);
-      white-space: pre-wrap;
       overflow-wrap: anywhere;
+    }
+
+    .answer p,
+    .answer ul,
+    .answer ol {
+      margin: 0 0 12px;
+    }
+
+    .answer ul,
+    .answer ol {
+      padding-left: 22px;
+    }
+
+    .answer li {
+      margin-bottom: 7px;
+    }
+
+    .answer strong {
+      color: var(--ink);
     }
 
     .memory-id {
@@ -394,15 +412,24 @@
     }
 
     .check {
-      display: grid;
       width: 20px;
       height: 20px;
-      place-items: center;
       border-radius: 50%;
       background: var(--green);
-      color: #ffffff;
-      font-size: 0.75rem;
       flex: 0 0 auto;
+      position: relative;
+    }
+
+    .check::after {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 4px;
+      width: 6px;
+      height: 10px;
+      border: solid #ffffff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
     }
 
     footer {
@@ -542,11 +569,11 @@
 
         <section class="panel demo-card">
           <h2>Demo Story</h2>
-          <p>Ask a capacity question, get a grounded answer, then ask what you asked earlier. The memory ID proves the conversation was saved.</p>
+          <p>Ask a capacity question, get a grounded answer, then ask what you asked earlier. The system saves useful interactions for follow-up questions.</p>
           <div class="proof-list">
-            <div class="proof"><span class="check">OK</span> Capacity data stored in CockroachDB</div>
-            <div class="proof"><span class="check">OK</span> Bedrock generates the final response</div>
-            <div class="proof"><span class="check">OK</span> Vector memory supports similar-question recall</div>
+            <div class="proof"><span class="check" aria-hidden="true"></span> Capacity data stored in CockroachDB</div>
+            <div class="proof"><span class="check" aria-hidden="true"></span> Bedrock generates the final response</div>
+            <div class="proof"><span class="check" aria-hidden="true"></span> Vector memory supports similar-question recall</div>
           </div>
         </section>
       </aside>
@@ -583,6 +610,66 @@
         return "n/a";
       }
       return Math.round(number).toLocaleString();
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function formatInline(text) {
+      return escapeHtml(text).replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    }
+
+    function renderAnswer(text) {
+      const lines = text.split(/\r?\n/);
+      let html = "";
+      let listType = null;
+
+      function closeList() {
+        if (listType) {
+          html += `</${listType}>`;
+          listType = null;
+        }
+      }
+
+      lines.forEach((line) => {
+        const trimmed = line.trim();
+
+        if (!trimmed) {
+          closeList();
+          return;
+        }
+
+        const numbered = trimmed.match(/^(\d+)\.\s+(.*)$/);
+        if (numbered) {
+          if (listType !== "ol") {
+            closeList();
+            html += "<ol>";
+            listType = "ol";
+          }
+          html += `<li>${formatInline(numbered[2])}</li>`;
+          return;
+        }
+
+        if (trimmed.startsWith("- ")) {
+          if (listType !== "ul") {
+            closeList();
+            html += "<ul>";
+            listType = "ul";
+          }
+          html += `<li>${formatInline(trimmed.slice(2))}</li>`;
+          return;
+        }
+
+        closeList();
+        html += `<p>${formatInline(trimmed)}</p>`;
+      });
+
+      closeList();
+      return html || "<p>Your response will appear here.</p>";
     }
 
     async function checkHealth() {
@@ -628,9 +715,9 @@
           throw new Error(typeof data.detail === "string" ? data.detail : "The API returned an error.");
         }
 
-        answer.textContent = data.answer;
-        memory.textContent = `Memory ID: ${data.memory_id}`;
-        answerState.textContent = "Saved";
+        answer.innerHTML = renderAnswer(data.answer);
+        memory.textContent = "Saved to CockroachDB memory.";
+        answerState.textContent = "Answered";
       } catch (error) {
         answer.textContent = `Something went wrong: ${error.message}`;
         answerState.textContent = "Error";
