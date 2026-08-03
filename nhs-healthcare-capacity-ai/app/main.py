@@ -12,6 +12,9 @@ static_dir = project_root / "app" / "static"
 sys.path.insert(0, str(project_root))
 
 from agent.orchestrator import answer_question
+from agent.db import connect
+from agent.forecasting import forecast_ae_pressure
+from agent.tools import get_capacity_summary, get_regional_bed_pressure
 
 
 app = FastAPI(
@@ -32,6 +35,13 @@ class AskResponse(BaseModel):
     memory_id: str
 
 
+class SignalResponse(BaseModel):
+    capacity_pressure: dict
+    highest_bed_pressure: dict | None
+    ae_forecast: dict
+    memory: dict
+
+
 @app.get("/")
 def home():
     return FileResponse(static_dir / "index.html")
@@ -42,6 +52,29 @@ def health_check():
     return {
         "status": "ok",
         "service": "NHS Capacity Memory Agent API",
+    }
+
+
+@app.get("/signals", response_model=SignalResponse)
+def current_signals():
+    capacity_summary = get_capacity_summary()
+    regional_pressure = get_regional_bed_pressure()
+    highest_region = regional_pressure[0] if regional_pressure else None
+    forecast = forecast_ae_pressure(months_history=12, periods_ahead=3)
+
+    with connect() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT count(*) FROM agent_memory;")
+            memory_count = cur.fetchone()[0]
+
+    return {
+        "capacity_pressure": capacity_summary,
+        "highest_bed_pressure": highest_region,
+        "ae_forecast": forecast,
+        "memory": {
+            "saved_memories": memory_count,
+            "status": "active",
+        },
     }
 
 

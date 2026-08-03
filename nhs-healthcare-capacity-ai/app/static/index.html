@@ -520,23 +520,23 @@
           <div class="signal">
             <div>
               <strong>Capacity pressure</strong>
-              <span>Latest national snapshot and regional bed pressure available.</span>
+              <span id="capacitySignalText">Loading latest capacity signal...</span>
             </div>
-            <div class="tag amber">Elevated</div>
+            <div class="tag amber" id="capacitySignalTag">Loading</div>
           </div>
           <div class="signal">
             <div>
               <strong>A&E demand</strong>
-              <span>Monthly activity history supports trend questions and short forecasts.</span>
+              <span id="aeSignalText">Loading A&E forecast signal...</span>
             </div>
-            <div class="tag">Trend</div>
+            <div class="tag" id="aeSignalTag">Trend</div>
           </div>
           <div class="signal">
             <div>
               <strong>Memory recall</strong>
-              <span>Previous questions can be retrieved for follow-up conversations.</span>
+              <span id="memorySignalText">Loading memory status...</span>
             </div>
-            <div class="tag green">Active</div>
+            <div class="tag green" id="memorySignalTag">Active</div>
           </div>
         </section>
 
@@ -544,9 +544,9 @@
           <h2>Demo Story</h2>
           <p>Ask a capacity question, get a grounded answer, then ask what you asked earlier. The memory ID proves the conversation was saved.</p>
           <div class="proof-list">
-            <div class="proof"><span class="check">✓</span> Capacity data stored in CockroachDB</div>
-            <div class="proof"><span class="check">✓</span> Bedrock generates the final response</div>
-            <div class="proof"><span class="check">✓</span> Vector memory supports similar-question recall</div>
+            <div class="proof"><span class="check">OK</span> Capacity data stored in CockroachDB</div>
+            <div class="proof"><span class="check">OK</span> Bedrock generates the final response</div>
+            <div class="proof"><span class="check">OK</span> Vector memory supports similar-question recall</div>
           </div>
         </section>
       </aside>
@@ -562,6 +562,28 @@
     const askButton = document.getElementById("askButton");
     const status = document.getElementById("status");
     const answerState = document.getElementById("answerState");
+    const capacitySignalText = document.getElementById("capacitySignalText");
+    const capacitySignalTag = document.getElementById("capacitySignalTag");
+    const aeSignalText = document.getElementById("aeSignalText");
+    const aeSignalTag = document.getElementById("aeSignalTag");
+    const memorySignalText = document.getElementById("memorySignalText");
+    const memorySignalTag = document.getElementById("memorySignalTag");
+
+    function formatPercent(value) {
+      const number = Number(value);
+      if (Number.isNaN(number)) {
+        return "n/a";
+      }
+      return `${(number * 100).toFixed(2)}%`;
+    }
+
+    function formatNumber(value) {
+      const number = Number(value);
+      if (Number.isNaN(number)) {
+        return "n/a";
+      }
+      return Math.round(number).toLocaleString();
+    }
 
     async function checkHealth() {
       try {
@@ -618,6 +640,40 @@
       }
     }
 
+    async function loadSignals() {
+      try {
+        const response = await fetch("/signals");
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error("Could not load live signals.");
+        }
+
+        const capacity = data.capacity_pressure;
+        const highestRegion = data.highest_bed_pressure;
+        const forecast = data.ae_forecast;
+        const memoryData = data.memory;
+
+        capacitySignalText.textContent = `${capacity.region_name} pressure score ${capacity.capacity_pressure_score}, bed occupancy ${formatPercent(capacity.ga_occupancy_rate)} as of ${capacity.period_date}.`;
+        capacitySignalTag.textContent = capacity.risk_band || "Live";
+
+        if (highestRegion && forecast.dta_waits_over_12h && forecast.dta_waits_over_12h.forecast) {
+          const forecastValue = forecast.dta_waits_over_12h.forecast[2];
+          aeSignalText.textContent = `Highest regional bed pressure: ${highestRegion.region_name}, ${formatPercent(highestRegion.ga_occupancy_rate)} occupancy. A&E 12h waits forecast: ${formatNumber(forecastValue)} in 3 months.`;
+        } else {
+          aeSignalText.textContent = "A&E history is loaded and ready for trend questions.";
+        }
+        aeSignalTag.textContent = "Forecast";
+
+        memorySignalText.textContent = `${formatNumber(memoryData.saved_memories)} saved memory records are available for follow-up questions.`;
+        memorySignalTag.textContent = memoryData.status || "Active";
+      } catch {
+        capacitySignalText.textContent = "Live signals are not available yet.";
+        aeSignalText.textContent = "Forecast signal could not be loaded.";
+        memorySignalText.textContent = "Memory status could not be loaded.";
+      }
+    }
+
     document.querySelectorAll(".example").forEach((button) => {
       button.addEventListener("click", () => {
         question.value = button.textContent;
@@ -627,6 +683,7 @@
 
     askButton.addEventListener("click", askAgent);
     checkHealth();
+    loadSignals();
   </script>
 </body>
 </html>
