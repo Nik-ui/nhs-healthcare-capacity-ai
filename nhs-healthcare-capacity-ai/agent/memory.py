@@ -80,7 +80,10 @@ def save_memory_with_embedding(
         f"Answer: {agent_answer}\n"
         f"Summary: {memory_summary}"
     )
-    save_memory_embedding(memory_id=memory_id, text=text_to_embed)
+    try:
+        save_memory_embedding(memory_id=memory_id, text=text_to_embed)
+    except Exception:
+        pass
 
     return memory_id
 

@@ -30,7 +30,10 @@ def build_agent_context():
 
 def answer_question(user_question):
     context = build_agent_context()
-    similar_memories = get_similar_memories(user_question, limit=3)
+    try:
+        similar_memories = get_similar_memories(user_question, limit=3)
+    except Exception:
+        similar_memories = []
     context["similar_memories"] = similar_memories
 
     prompt = f"""

@@ -1,0 +1,19 @@
+{
+  "services": {
+    "nhs-capacity-memory-agent": {
+      "root": ".",
+      "framework": "fastapi",
+      "entrypoint": "app.main:app",
+      "buildCommand": "pip install -r requirements.txt"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": {
+        "type": "service",
+        "service": "nhs-capacity-memory-agent"
+      }
+    }
+  ]
+}

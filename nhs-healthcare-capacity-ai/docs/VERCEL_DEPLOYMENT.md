@@ -15,15 +15,17 @@ Vercel runs the FastAPI app as a function. This means there can still be a short
 ## Files added for Vercel
 
 ```text
-app.py
 .python-version
+vercel.json
 ```
 
-`app.py` points Vercel to the existing FastAPI application:
+`vercel.json` points Vercel to the existing FastAPI application:
 
-```python
-from app.main import app
+```json
+"entrypoint": "app.main:app"
 ```
+
+This means: open `app/main.py` and run the FastAPI object named `app`.
 
 `.python-version` tells Vercel which Python version to use.
 
