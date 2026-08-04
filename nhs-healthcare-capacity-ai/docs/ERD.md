@@ -1,6 +1,6 @@
 # NHS Capacity Memory Agent ERD
 
-This document shows how the CockroachDB tables relate to each other.
+This document shows how the CockroachDB tables relate to each other. It uses the industry-friendly crow's foot ERD style through Mermaid, which is easier to read in GitHub than the older academic Chen notation.
 
 ## Entity Relationship Diagram
 
