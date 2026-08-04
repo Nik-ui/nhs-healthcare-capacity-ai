@@ -34,7 +34,8 @@ The system is built with:
 - AWS Bedrock for answer generation
 - Bedrock Titan embeddings for memory vectors
 - Python data scripts for cleaning and loading NHS England data
-- Vercel for the public demo deployment
+- Vercel for the polished public demo deployment
+- AWS Lambda Function URL for AWS-hosted API deployment evidence
 
 The database stores national capacity snapshots, regional bed pressure, A&E activity history, agent memory, vector embeddings, and recommendation-ready records.
 
@@ -121,6 +122,10 @@ Next improvements:
 ## Demo Link
 
 https://nhs-healthcare-capacity-ai.vercel.app
+
+AWS Lambda Function URL:
+
+https://yul47sn53pnghl73lmiacl444u0jqoxt.lambda-url.us-east-1.on.aws
 
 ## Repository
 

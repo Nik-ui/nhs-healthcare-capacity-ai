@@ -2,6 +2,8 @@
 
 Live demo: https://nhs-healthcare-capacity-ai.vercel.app
 
+AWS Lambda demo: https://yul47sn53pnghl73lmiacl444u0jqoxt.lambda-url.us-east-1.on.aws/
+
 NHS Capacity Memory Agent is a health operations decision-support prototype that helps users ask questions about NHS bed pressure, A&E demand, short-term pressure forecasts, and previous capacity discussions.
 
 The system combines public NHS England datasets, CockroachDB Cloud, CockroachDB vector search, AWS Bedrock, and a FastAPI web app.
@@ -25,10 +27,22 @@ Use the deployed app:
 https://nhs-healthcare-capacity-ai.vercel.app
 ```
 
+AWS Lambda Function URL:
+
+```text
+https://yul47sn53pnghl73lmiacl444u0jqoxt.lambda-url.us-east-1.on.aws/
+```
+
 API health check:
 
 ```text
 https://nhs-healthcare-capacity-ai.vercel.app/health
+```
+
+AWS Lambda health check:
+
+```text
+https://yul47sn53pnghl73lmiacl444u0jqoxt.lambda-url.us-east-1.on.aws/health
 ```
 
 API documentation:
