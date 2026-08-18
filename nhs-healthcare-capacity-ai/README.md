@@ -63,6 +63,7 @@ Example questions:
 Submission support materials are included in `docs/`:
 
 - Devpost draft: `docs/DEVPOST_SUBMISSION.md`
+- hackathon compliance: `docs/HACKATHON_COMPLIANCE.md`
 - demo video script: `docs/DEMO_VIDEO_SCRIPT.md`
 - screenshot checklist: `docs/SCREENSHOT_GUIDE.md`
 - architecture notes: `docs/ARCHITECTURE.md`
@@ -100,6 +101,11 @@ CockroachDB is used as the persistent intelligence layer:
 - vector embedding table
 - semantic memory retrieval with vector search
 - recommendation-ready schema
+
+Hackathon tools used:
+
+- CockroachDB Cloud
+- CockroachDB Distributed Vector Indexing
 
 Main tables:
 
@@ -226,6 +232,7 @@ Complete for hackathon demo:
 - A&E pressure forecasting
 - FastAPI API
 - deployed Vercel web app
+- deployed AWS Lambda Function URL
 
 Next improvements:
 
@@ -234,3 +241,7 @@ Next improvements:
 - more NHS datasets
 - dashboard charts
 - authentication for real operational use
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
