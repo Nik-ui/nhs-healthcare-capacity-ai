@@ -109,10 +109,10 @@ def slide_intro():
 
 
 def slide_homepage():
-    img, draw = base_slide("1. Show the live homepage")
+    img, draw = base_slide("Live Web Interface")
     draw_wrapped(
         draw,
-        "Open the deployed app and show that users can ask capacity questions in a clean interface.",
+        "The deployed app lets users ask NHS capacity questions in plain English through a clean, focused interface.",
         (70, 270),
         "#1d3557",
         FONT_BODY,
@@ -139,30 +139,36 @@ def slide_question(title, question, answer, tag):
 
 
 def slide_architecture():
-    img, draw = base_slide("5. Architecture close")
+    img, draw = base_slide("System Architecture")
     steps = [
         ("User", "asks a capacity question"),
-        ("FastAPI / Lambda", "receives the request"),
-        ("CockroachDB", "returns NHS data and memory"),
-        ("Bedrock", "generates the grounded answer"),
-        ("Memory", "stores the useful interaction"),
+        ("FastAPI\nLambda", "receives the request"),
+        ("CockroachDB", "returns NHS data\nand memory"),
+        ("Bedrock", "generates the\ngrounded answer"),
+        ("Memory", "stores the useful\ninteraction"),
     ]
 
-    x = 85
-    y = 350
+    x = 70
+    y = 335
+    card_w = 315
+    card_h = 210
+    gap = 62
     for i, (name, desc) in enumerate(steps):
-        rounded(draw, (x, y, x + 310, y + 180), 24, "#ffffff", "#b9cee5", 3)
-        draw.text((x + 30, y + 38), name, fill="#123c69", font=FONT_H2)
-        draw_wrapped(draw, desc, (x + 30, y + 100), "#4f647d", FONT_SMALL, width=18)
+        rounded(draw, (x, y, x + card_w, y + card_h), 24, "#ffffff", "#b9cee5", 3)
+        draw.multiline_text((x + 26, y + 30), name, fill="#123c69", font=FONT_H2, spacing=6)
+        draw.multiline_text((x + 26, y + 126), desc, fill="#4f647d", font=FONT_SMALL, spacing=6)
         if i < len(steps) - 1:
-            draw.line((x + 325, y + 90, x + 390, y + 90), fill="#0b6b4f", width=8)
-            draw.polygon([(x + 390, y + 90), (x + 370, y + 75), (x + 370, y + 105)], fill="#0b6b4f")
-        x += 365
+            start_x = x + card_w + 12
+            end_x = x + card_w + gap - 12
+            mid_y = y + card_h // 2
+            draw.line((start_x, mid_y, end_x, mid_y), fill="#0b6b4f", width=7)
+            draw.polygon([(end_x, mid_y), (end_x - 18, mid_y - 13), (end_x - 18, mid_y + 13)], fill="#0b6b4f")
+        x += card_w + gap
 
     draw_wrapped(
         draw,
         "The demo proves a full loop: retrieved context, AI reasoning, vector memory, forecast signal, and saved conversation history.",
-        (120, 690),
+        (120, 705),
         "#1d3557",
         FONT_BODY,
         width=86,
@@ -171,30 +177,31 @@ def slide_architecture():
 
 
 def slide_closing():
-    img, draw = base_slide("Ready for Devpost")
+    img, draw = base_slide("Deployed System Summary")
     draw_wrapped(
         draw,
-        "Demo links: Vercel frontend, AWS Lambda API, GitHub repository, and CockroachDB-backed memory.",
+        "NHS Capacity Memory Agent connects a Vercel interface, AWS Lambda API, AWS Bedrock reasoning, and CockroachDB memory/vector search.",
         (80, 300),
         "#10233f",
         FONT_H2,
-        width=56,
+        width=62,
     )
     draw_wrapped(
         draw,
-        "Final line: This is NHS Capacity Memory Agent, a deployed AI assistant for capacity pressure, demand forecasting, and operational memory.",
+        "This deployed demo turns NHS capacity data into grounded answers, short-term A and E forecasts, and remembered follow-up conversations.",
         (80, 560),
         "#1d3557",
         FONT_BODY,
         width=82,
     )
-    draw.text((80, 900), "Fatimo Adenike Adeniya | Adeyinka Adejumobi", fill="#4f647d", font=FONT_SMALL)
+    draw.text((80, 860), "Built by", fill="#4f647d", font=FONT_SMALL)
+    draw.text((80, 905), "Fatimo Adenike Adeniya | Adeyinka Adejumobi", fill="#10233f", font=FONT_BODY)
     return img
 
 
 def save_video(slide_paths, video_path):
     frames = []
-    seconds_per_slide = [5, 10, 18, 20, 18, 18, 8]
+    seconds_per_slide = [13, 7, 25, 22, 22, 17, 8]
     for path, seconds in zip(slide_paths, seconds_per_slide):
         frame = imageio.imread(path)
         frames.extend([frame] * (seconds * FPS))
@@ -211,19 +218,19 @@ def main():
         slide_intro(),
         slide_homepage(),
         slide_question(
-            "2. Ask about regional bed pressure",
+            "Regional Bed Pressure",
             "Which region has the highest bed occupancy?",
             "South West has the highest General and Acute bed occupancy in the current regional dataset. The answer is grounded in the regional beds table stored in CockroachDB.",
             "CockroachDB data retrieval",
         ),
         slide_question(
-            "3. Ask for a 3-month A&E trend",
+            "Three-Month A&E Forecast",
             "What is the likely A&E pressure trend over the next 3 months?",
             "The agent uses recent monthly A&E activity and a simple linear trend. It forecasts attendances, emergency admissions, and 12-hour waits, while stating that this is not an official NHS prediction.",
             "Forecasting tool",
         ),
         slide_question(
-            "4. Ask memory recall",
+            "Operational Memory Recall",
             "What did I ask earlier about capacity pressure?",
             "The assistant recalls earlier questions because each useful interaction is saved to CockroachDB memory. Vector search helps find related previous questions, not just exact matches.",
             "Vector memory",
@@ -242,14 +249,14 @@ def main():
     save_video(slide_paths, video_path)
 
     copy_video_path = SUBMISSION_DIR / "nhs_capacity_memory_agent_demo_draft.mp4"
-    copy_guide_path = SUBMISSION_DIR / "DEMO_RECORDING_GUIDE.md"
+    copy_guide_path = SUBMISSION_DIR / "DEMO_VIDEO_SCRIPT.md"
     copy_video_path.write_bytes(video_path.read_bytes())
 
-    guide = """# Demo Recording Guide
+    guide = """# Demo Video Script
 
 Target length: 90 seconds to 2 minutes.
 
-## Story To Record
+## Demo Story
 
 1. Show homepage.
 2. Ask: Which region has the highest bed occupancy?
@@ -272,7 +279,7 @@ Finally, I ask: What did I ask earlier about capacity pressure? The assistant re
 
 The architecture uses CockroachDB Cloud for NHS data, memory, and vector search; AWS Bedrock for answer generation; AWS Lambda for the API runtime; and Vercel for the frontend.
 
-This is NHS Capacity Memory Agent: a deployed AI assistant for capacity pressure, A&E demand forecasting, and operational memory.
+This is NHS Capacity Memory Agent: a deployed decision-support assistant for capacity pressure, A&E demand forecasting, and operational memory.
 
 ## Demo Links
 
@@ -286,10 +293,9 @@ This is NHS Capacity Memory Agent: a deployed AI assistant for capacity pressure
 - Silent draft video: `nhs_capacity_memory_agent_demo_draft.mp4`
 - Slide images: `docs/demo_assets/demo_video_slides/`
 
-Use the silent draft as a visual guide. For the final Devpost video, record your browser while following this script so judges see the live app working.
+Use the silent draft as a visual guide. For the final Devpost video, record the live app while following this script so judges see the system working.
 """
     copy_guide_path.write_text(guide, encoding="utf-8")
-    (ASSET_DIR / "DEMO_RECORDING_GUIDE.md").write_text(guide, encoding="utf-8")
 
     print(f"Created video draft: {video_path}")
     print(f"Copied video draft to: {copy_video_path}")

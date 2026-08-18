@@ -1,23 +1,29 @@
 # Deployment Guide
 
-This project can be deployed as a small FastAPI web service.
+The project is deployed in two places:
 
-## Recommended hackathon path
+- Vercel hosts the public web interface.
+- AWS Lambda exposes the FastAPI app through a Function URL.
 
-Use Render for the public demo URL.
+This gives judges a clean product link and also shows the AWS deployment required by the hackathon.
 
-Why:
+## Live URLs
 
-- it has a free web service option
-- it can deploy directly from GitHub
-- it supports Python/FastAPI
-- it lets us keep secrets as private environment variables
+Web app:
 
-Important: the free service may sleep after inactivity. If the page is slow on first load, refresh after it wakes up.
+```text
+https://nhs-healthcare-capacity-ai.vercel.app
+```
 
-## Environment variables
+AWS Lambda Function URL:
 
-Add these in the Render dashboard. Do not put real values in GitHub.
+```text
+https://yul47sn53pnghl73lmiacl444u0jqoxt.lambda-url.us-east-1.on.aws/
+```
+
+## Environment Variables
+
+These values are configured privately in the deployment platforms. Real values must not be committed to GitHub.
 
 ```text
 DATABASE_URL=your CockroachDB connection string
@@ -26,36 +32,36 @@ AWS_SECRET_ACCESS_KEY=your AWS secret access key
 AWS_REGION=us-east-1
 EMBEDDING_PROVIDER=bedrock
 EMBEDDING_MODEL=amazon.titan-embed-text-v2:0
-BEDROCK_TEXT_MODEL=anthropic.claude-sonnet-4-20250514-v1:0
+BEDROCK_TEXT_MODEL=amazon.nova-pro-v1:0
 ```
 
-## Start command
+## Local Run Command
 
-Render uses this command:
+Run the FastAPI app locally with:
 
 ```text
-uvicorn app.main:app --host 0.0.0.0 --port $PORT
+uvicorn app.main:app --reload
 ```
 
 Meaning:
 
 - `uvicorn` runs the FastAPI app
 - `app.main:app` points to the `app` object in `app/main.py`
-- `0.0.0.0` allows Render to expose it publicly
-- `$PORT` uses the port Render assigns automatically
+- `--reload` restarts the local server when code changes
 
-## Test after deployment
+## Test After Deployment
 
 Open:
 
 ```text
-https://your-render-url.onrender.com
+https://nhs-healthcare-capacity-ai.vercel.app
 ```
 
-Then test:
+Health checks:
 
 ```text
-https://your-render-url.onrender.com/health
+https://nhs-healthcare-capacity-ai.vercel.app/health
+https://yul47sn53pnghl73lmiacl444u0jqoxt.lambda-url.us-east-1.on.aws/health
 ```
 
 Expected result:

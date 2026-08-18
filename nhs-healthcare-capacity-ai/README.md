@@ -58,11 +58,11 @@ Example questions:
 - What is the likely A&E pressure trend over the next 3 months?
 - What did I ask earlier about capacity pressure?
 
-## Demo Assets
+## Submission Materials
 
 Submission support materials are included in `docs/`:
 
-- Devpost draft: `docs/DEVPOST_SUBMISSION.md`
+- Devpost submission text: `docs/DEVPOST_SUBMISSION.md`
 - hackathon compliance: `docs/HACKATHON_COMPLIANCE.md`
 - demo video script: `docs/DEMO_VIDEO_SCRIPT.md`
 - screenshot checklist: `docs/SCREENSHOT_GUIDE.md`
@@ -94,7 +94,7 @@ flowchart TD
 
 ## CockroachDB Usage
 
-CockroachDB is used as the persistent intelligence layer:
+CockroachDB is used as the main data and memory layer:
 
 - structured NHS capacity tables
 - agent memory table
@@ -125,7 +125,7 @@ AWS Bedrock is used for:
 - answer generation through a hosted foundation model
 - Bedrock Titan embeddings for vector memory
 
-The agent does not simply guess. It retrieves capacity context from CockroachDB, sends that structured context to Bedrock, and stores the response back into CockroachDB memory.
+The agent retrieves capacity context from CockroachDB, sends that structured context to Bedrock, and stores the response back into CockroachDB memory.
 
 ## Data
 
@@ -215,8 +215,8 @@ C:\Users\folah\my_python_projects\venv\Scripts\python.exe scripts\ask_bedrock_ca
 - [Architecture](docs/ARCHITECTURE.md)
 - [ERD](docs/ERD.md)
 - [Data Dictionary](docs/DATA_DICTIONARY.md)
-- [Deployment Guide](docs/VERCEL_DEPLOYMENT.md)
-- [Devpost Submission Draft](docs/DEVPOST_SUBMISSION.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
+- [Devpost Submission](docs/DEVPOST_SUBMISSION.md)
 - [Demo Video Script](docs/DEMO_VIDEO_SCRIPT.md)
 
 ## Status

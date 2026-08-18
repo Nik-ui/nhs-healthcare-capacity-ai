@@ -22,3 +22,8 @@ dist/
 build/
 
 .vercel
+
+# Local demo exports
+docs/demo_assets/*.mp4
+docs/demo_assets/*.mp3
+docs/demo_assets/lambda_footer_check.png

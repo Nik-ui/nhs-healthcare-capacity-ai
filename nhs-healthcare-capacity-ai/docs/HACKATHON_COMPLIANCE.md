@@ -4,7 +4,7 @@ This document explains how NHS Capacity Memory Agent maps to the CockroachDB x A
 
 ## Project Requirement
 
-The project is an agentic NHS capacity decision-support application that uses CockroachDB as its persistent memory layer and is deployed with AWS.
+The project is an NHS capacity decision-support application that uses CockroachDB as its memory layer and is deployed with AWS.
 
 The agent can:
 
@@ -57,7 +57,7 @@ Amazon Bedrock is used for:
 - hosted foundation-model response generation
 - Titan text embeddings for vector memory
 
-The agent sends retrieved CockroachDB context to Bedrock so the answer is grounded in stored NHS data.
+The agent sends retrieved NHS data and memory to Bedrock so the answer is based on stored project context.
 
 ### 2. AWS Lambda
 

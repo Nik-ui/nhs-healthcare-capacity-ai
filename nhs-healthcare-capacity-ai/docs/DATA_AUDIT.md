@@ -107,7 +107,7 @@ Completed first-pass data task:
 2. Loaded the beds workbook from `data/raw`.
 3. Loaded the A&E workbook from `data/raw`, sheet `Activity`.
 4. Cleaned headers and removed metadata rows.
-5. Produced dashboard-ready files in `data/processed`.
+5. Produced cleaner project files in `data/processed`.
 6. Created a prototype pressure score.
 
 ## Processed Outputs

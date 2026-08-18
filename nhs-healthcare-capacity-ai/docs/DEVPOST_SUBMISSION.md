@@ -1,4 +1,4 @@
-# Devpost Submission Draft
+# Devpost Submission
 
 ## Project Title
 
@@ -6,7 +6,7 @@ NHS Capacity Memory Agent
 
 ## Short Description
 
-An AI-powered health operations assistant that uses CockroachDB Cloud, CockroachDB vector search, and AWS Bedrock to answer NHS capacity questions, recall previous discussions, and forecast short-term A&E pressure.
+A health operations assistant that uses CockroachDB Cloud, CockroachDB vector search, and AWS Bedrock to answer NHS capacity questions, recall previous discussions, and forecast short-term A&E pressure.
 
 ## Inspiration
 
@@ -22,7 +22,7 @@ The app lets a user ask natural-language questions such as:
 - What is the likely A&E pressure trend over the next 3 months?
 - What did I ask earlier about capacity pressure?
 
-The agent retrieves NHS context from CockroachDB, runs a short-term A&E pressure forecast, searches previous memories using vector search, asks AWS Bedrock to generate a grounded answer, then saves the new question and answer back into CockroachDB memory.
+The agent retrieves NHS context from CockroachDB, runs a short-term A&E pressure forecast, searches previous memories using vector search, asks AWS Bedrock to generate an answer, then saves the new question and answer back into CockroachDB memory.
 
 ## How We Built It
 
@@ -53,7 +53,7 @@ CockroachDB stores:
 - vector embeddings for semantic memory retrieval
 - recommendation records
 
-The agent queries CockroachDB every time it answers a question. CockroachDB vector search is used to retrieve previous memories that are semantically similar to the new user question.
+The agent queries CockroachDB every time it answers a question. CockroachDB vector search retrieves previous memories that are similar to the new user question.
 
 ## AWS Usage
 
@@ -62,7 +62,7 @@ AWS Bedrock is used for:
 - answer generation from retrieved project context
 - Bedrock Titan embeddings for memory vectors
 
-This keeps the response generation model separate from the database memory layer, while allowing the app to combine structured operational data with language reasoning.
+This keeps the model separate from the database memory layer, while allowing the app to combine structured operational data with language reasoning.
 
 ## Data Used
 
@@ -90,13 +90,13 @@ The current demo loads:
 
 ## Challenges
 
-The main challenge was turning notebook-style exploratory analysis into a product-like system. The work involved cleaning NHS data, designing a CockroachDB schema, handling vector dimensions correctly, connecting AWS Bedrock, and deploying a FastAPI app with private environment variables.
+The main challenge was turning notebook-style exploratory analysis into a working product. The work involved cleaning NHS data, designing a CockroachDB schema, handling vector dimensions correctly, connecting AWS Bedrock, and deploying a FastAPI app with private environment variables.
 
 Another challenge was making the agent answer naturally while still grounding answers in retrieved database context. The final version keeps the technical architecture visible in the product and documentation, but keeps the user-facing answer clean.
 
 ## What We Learned
 
-This project helped clarify how agentic systems can be built around reliable data stores rather than only prompt logic. CockroachDB provides the persistent system memory, AWS Bedrock provides language reasoning, and the app layer turns both into a user-facing product.
+This project helped clarify how an assistant can be built around a reliable data store rather than only prompt logic. CockroachDB provides the system memory, AWS Bedrock provides language reasoning, and the app layer turns both into a user-facing product.
 
 We also learned the importance of separating:
 

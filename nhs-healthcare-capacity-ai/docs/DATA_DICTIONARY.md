@@ -1,8 +1,8 @@
 # Data Dictionary
 
-This document explains the processed datasets used by the NHS Capacity Intelligence Dashboard.
+This document explains the processed datasets used by NHS Capacity Memory Agent.
 
-The project keeps raw NHS Excel workbooks in `data/raw` and creates cleaner dashboard-ready files in `data/processed`.
+The project keeps raw NHS Excel workbooks in `data/raw` and creates cleaner files in `data/processed`.
 
 ## Why A Data Dictionary Matters
 
@@ -13,7 +13,7 @@ A data dictionary answers four questions:
 - How was the value calculated or cleaned?
 - Why does it matter for the product?
 
-This is especially useful before building a dashboard, because every chart and KPI card should have a clear source.
+This is useful because every answer, forecast, and product signal should have a clear source.
 
 ## Processed Files
 
@@ -24,7 +24,7 @@ This is especially useful before building a dashboard, because every chart and K
 | `national_capacity_pressure.csv` | Merged national-level product dataset used for the pressure score |
 | `data_summary.json` | Small metadata summary of row counts and date coverage |
 
-JSON versions of the processed datasets are also created for the future React dashboard.
+JSON versions of the processed datasets are also created for future interface work.
 
 ## `beds_region_sector_clean`
 
@@ -38,15 +38,15 @@ Source sheet:
 
 | Column | Type | Meaning | Product Use |
 |---|---|---|---|
-| `period_date` | date | First day of the reporting month derived from the workbook period | Used for merging and filtering |
+| `period_date` | date | First day of the reporting month derived from the workbook period | Used for merging, filtering, and date-based questions |
 | `reporting_year` | text | NHS reporting year, e.g. `2025-26` | Shows the official reporting year |
 | `period_end` | text | Reporting period label, e.g. `December` | Human-readable period display |
 | `region_code` | text | NHS region code; England total is set to `ENG` | Regional filtering and comparison |
-| `region_name` | text | Region name, standardised to uppercase | Dashboard region labels |
-| `beds_available_total` | number | Total beds available across bed sectors | Overall capacity KPI |
-| `ga_available` | number | General and Acute beds available | Main acute capacity KPI |
-| `beds_occupied_total` | number | Total occupied beds across bed sectors | Overall pressure KPI |
-| `ga_occupied` | number | General and Acute beds occupied | Main acute occupancy KPI |
+| `region_name` | text | Region name, standardised to uppercase | Region labels in answers and comparisons |
+| `beds_available_total` | number | Total beds available across bed sectors | Overall capacity signal |
+| `ga_available` | number | General and Acute beds available | Main acute capacity signal |
+| `beds_occupied_total` | number | Total occupied beds across bed sectors | Overall pressure signal |
+| `ga_occupied` | number | General and Acute beds occupied | Main acute occupancy signal |
 | `beds_occupancy_rate` | decimal | Total occupied beds divided by total available beds | Overall occupancy signal |
 | `ga_occupancy_rate` | decimal | General and Acute occupied beds divided by General and Acute available beds | Primary bed pressure signal |
 
@@ -92,7 +92,7 @@ The bed workbook currently covers one reporting period ending December 2025. The
 | `admission_rate_via_ae` | decimal | `emergency_admissions_via_ae / ae_total_attendances` | Shows how much A&E demand converts into admissions |
 | `dta_12h_wait_rate` | decimal | `dta_waits_over_12h / emergency_admissions_via_ae` | Shows severe waiting pressure relative to admissions |
 | `capacity_pressure_score` | number | Prototype weighted score from occupancy, admission rate, and 12-hour wait rate | Main product pressure signal |
-| `risk_band` | text | Label derived from the pressure score: `normal`, `elevated`, `high`, or `critical` | Dashboard colour/status indicator |
+| `risk_band` | text | Label derived from the pressure score: `normal`, `elevated`, `high`, or `critical` | Simple status label used in the app |
 
 ## Prototype Pressure Score
 
